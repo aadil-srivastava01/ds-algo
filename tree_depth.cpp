@@ -24,15 +24,6 @@ int Depth(BTreeNode *t) {
   }
 }
 
-// class Solution
-// {
-// public:
-//     int maxDepth(BTreeNode *root)
-//     {
-//         return Depth(root);
-//     }
-// };
-
 int main() {
   BTreeNode root{1};
   BTreeNode n1{2};
