@@ -36,7 +36,7 @@ class Solution {
   }
 };
 
-// Solution 2 Space: O(1), time: O(n)
+// Solution 2 Space: O(1), time: O(n) using STL
 
 class Solution2 {
  public:
@@ -45,13 +45,26 @@ class Solution2 {
   }
 };
 
+// Solution 3 Space: O(1), time: O(n)
+
+class Solution3 {
+ public:
+  void moveZeroes(std::vector<int> &nums) {
+    for (int i = 0, zero_i = 0; i < nums.size(); i++) {
+      if (nums.at(i)) {
+        std::swap(nums[i], nums[zero_i++]);
+      }
+    }
+  }
+};
+
 int main() {
   std::vector<int> v1{0, 1, 0, 3, 12};
   //   auto l1 = MoveZeros1(v1);
   //   Solution s1;
-  Solution2 s2;
-  //   s1.moveZeroes(v1);
-  s2.moveZeroes(v1);
+  //   Solution2 s2;
+  Solution3 s3;
+  s3.moveZeroes(v1);
   std::for_each(v1.begin(), v1.end(), [](auto i) { std::cout << i; });
   std::cout << std::endl;
   return 0;
