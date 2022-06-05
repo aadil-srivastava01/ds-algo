@@ -28,6 +28,7 @@ class CLinkedList {
   void insert(int idx, int val);
   void del(int idx);
   void reverse();
+  void efficient_reverse();
 };
 
 CLinkedList::CLinkedList(int val) {
@@ -92,7 +93,7 @@ void CLinkedList::del(int idx) {
     }
   }
 }
-// Work in Progress
+
 void CLinkedList::reverse() {
   if (length == 1) return;
   auto temp = new CLinkedList{head->val};
@@ -112,6 +113,22 @@ void CLinkedList::reverse() {
   temp = NULL;
   delete temp;
 }
+// O(1):Space, O(n) Time
+void CLinkedList::efficient_reverse() {
+  auto first = head;
+  auto second = head->next;
+  auto tmp = second;
+  while (second != NULL) {
+    tmp = second->next;
+    second->next = first;
+    first = second;
+    second = tmp;
+  }
+  tail = head;
+  head->next = NULL;
+  head = first;
+}
+
 void traverse(ListNode *head) {
   ListNode *curr = head;
   while (curr != NULL) {
@@ -132,7 +149,9 @@ int main() {
   traverse(l1.head);
   l1.del(2);
   traverse(l1.head);
-  l1.reverse();
+  l1.efficient_reverse();
+  traverse(l1.head);
+  l1.append(17);
   traverse(l1.head);
 
   std::cout << std::endl;
