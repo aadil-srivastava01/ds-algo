@@ -46,6 +46,7 @@ CLinkedList::~CLinkedList() {
     i++;
   }
 }
+
 void CLinkedList::append(int val) {
   auto node = new ListNode{val};
   tail->next = node;
