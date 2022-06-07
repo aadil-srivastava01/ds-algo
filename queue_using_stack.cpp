@@ -12,21 +12,21 @@ https://leetcode.com/problems/implement-queue-using-stacks/description/
 #include <string>
 #include <vector>
 
-// naive approach
+// Amortized pop O(1) approach
 class MyQueue {
  public:
   std::stack<int> s1;
   std::stack<int> s2;
-  MyQueue() {}
 
   void push(int x) {
     if (s2.empty())
       s1.push(x);
     else if (s1.empty() && !s2.empty()) {
-      while (s2.empty()) {
+      while (!s2.empty()) {
         s1.push(s2.top());
         s2.pop();
       }
+      s1.push(x);
     }
   }
 
@@ -55,11 +55,8 @@ class MyQueue {
         s1.pop();
       }
       return s2.top();
-    }
-
-    else if (s2.empty() && s1.empty())
+    } else if (s2.empty() && s1.empty())
       return -1;
-
     else
       return s2.top();
   }
@@ -78,8 +75,18 @@ int main() {
   MyQueue q1;
   q1.push(1);
   q1.push(2);
-  std::cout << q1.peek() << std::endl;
+  q1.push(3);
+  q1.push(4);
   q1.pop();
+  q1.push(5);
+
+  q1.pop();
+  q1.pop();
+  q1.pop();
+
+  //   std::cout << q1.peek() << std::endl;
+  //   q1.pop();
+  std::cout << q1.pop() << std::endl;
   std::cout << q1.empty() << std::endl;
 
   std::cout << std::endl;
