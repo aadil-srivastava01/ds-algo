@@ -9,12 +9,19 @@ Problem Link: Create a Binary Search Tree
 #include <string>
 #include <vector>
 
-struct TreeNode {
+class TreeNode {
+ public:
+  friend std::ostream &operator<<(std::ostream &os, const TreeNode &obj);
   int val;
   TreeNode *left;
   TreeNode *right;
   TreeNode(int x) : val{x}, left{NULL}, right{NULL} {}
 };
+
+std::ostream &operator<<(std::ostream &os, const TreeNode &obj) {
+  os << obj.val;
+  return os;
+}
 
 class BinarySearchTree {
  private:
@@ -48,8 +55,9 @@ TreeNode BinarySearchTree::lookup(int x) {
       curr = curr->right;
     }
   }
-//   parent = curr;
-  if (curr == NULL) return TreeNode{NULL};
+  if (curr == NULL) {
+    return -1;
+  }
 }
 
 void BinarySearchTree::insert(int x) {
@@ -62,7 +70,7 @@ void BinarySearchTree::insert(int x) {
 
 void BinarySearchTree::iTraverse(TreeNode *node) {
   if (node->left != NULL) iTraverse(node->left);
-  std::cout << node->val << ' ';
+  std::cout << *node << ' ';
   if (node->right != NULL) iTraverse(node->right);
 }
 
@@ -77,6 +85,7 @@ int main() {
   bst.insert(7);
   bst.insert(10);
   bst.insert(14);
+  std::cout << bst.lookup(21) << std::endl;
   bst.inorder_traverse();
   std::cout << std::endl;
   return 0;
