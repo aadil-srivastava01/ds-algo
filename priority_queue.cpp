@@ -66,6 +66,11 @@ void PQueue::remove(int idx) {
   }
 }
 
+int PQueue::extractMax() {
+  int tmp = q.at(0);
+  remove(0);
+}
+
 void PQueue::traverse() {
   std::cout << "[ ";
   for (const auto &item : q) std::cout << item << " ";
