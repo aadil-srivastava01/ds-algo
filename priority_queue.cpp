@@ -1,6 +1,7 @@
 /*
 
-Problem Link: Implement a Priority Queue
+Problem Link: Implement a Priority Queue(with impoved removal implementation
+than prev commit)
 
 */
 
@@ -9,77 +10,81 @@ Problem Link: Implement a Priority Queue
 #include <string>
 #include <vector>
 
-class PQueue {
- private:
-  int last_idx;
-  int parent_idx;
-  void fix_property(int pidx, int cidx);
-
+class Pqueue {
  public:
   std::vector<int> q;
-  PQueue(int x);
-  void insert(int x);
-  int extractMax();
+  int last_idx;
+  Pqueue(int x) { q.push_back(x); }
+  void moveup(int idx);
+  void movedown(int idx);
   void remove(int idx);
-  int getMax() { return q.at(0); };
-  void traverse();
+  void insert(int idx);
+  int extractmax();
+  int peek() { return q[0]; }
+  int left_child(int idx) { return idx * 2 + 1; }
+  int right_child(int idx) { return idx * 2 + 2; }
+  int parent(int idx) { return (idx - 1) / 2; }
+  void update_last() { last_idx = q.size() - 1; }
+  void traverse() {
+    std::cout << "[ ";
+    for (const auto &item : q) std::cout << item << " ";
+    std::cout << " ]" << std::endl;
+  }
 };
 
-PQueue::PQueue(int x) {
-  q.emplace_back(x);
-  last_idx = 0;
-}
-void PQueue::insert(int x) {
-  q.emplace_back(x);
-  last_idx = q.size() - 1;
-  parent_idx = (last_idx - 1) / 2;
-  fix_property(parent_idx, last_idx);
-};
-
-void PQueue::fix_property(int pidx, int cidx) {
-  if (pidx < 0) return;
-  if (q.at(pidx) < q.at(cidx)) {
-    std::swap(q.at(pidx), q.at(cidx));
-    cidx = pidx;
-    pidx = (pidx - 1) / 2;
-    fix_property(pidx, cidx);
+void Pqueue::moveup(int idx) {
+  int p = parent(idx);
+  if (p > 0 && (q[idx] > q[p])) {
+    std::swap(q[p], q[idx]);
+    moveup(p);
   }
 }
 
-void PQueue::remove(int idx) {
-  int size = q.size();
-  int tmp_parent;
-  if (idx >= size) {
+void Pqueue::movedown(int idx) {
+  int left = left_child(idx);
+  int right = right_child(idx);
+  int maxI{0};
+
+  if ((left <= last_idx) && (q[left] > q[idx])) {
+    maxI = left;
+  }
+  if ((right <= last_idx) && (q[right] > q[idx])) {
+    maxI = right;
+  }
+  if (maxI) {
+    std::swap(q[idx], q[maxI]);
+    movedown(maxI);
+  }
+  return;
+}
+
+void Pqueue::insert(int val) {
+  q.push_back(val);
+  update_last();
+  moveup(q[last_idx]);
+}
+
+int Pqueue::extractmax() {
+  int max = q[0];
+  q[0] = q[last_idx];
+  q.pop_back();
+  movedown(0);
+  update_last();
+  return max;
+}
+
+void Pqueue::remove(int idx) {
+  if (idx > last_idx) {
     std::cout << "Invalid Index\n";
     return;
-  } else {
-    for (int i = idx; i < size - 1; i++) {
-      q.at(i) = q.at(i + 1);
-    }
-    q.pop_back();
-    size = q.size();
-    for (int i = size - 1; i > 0; i--) {
-      tmp_parent = (i - 1) / 2;
-      if (q.at(i) > q.at(tmp_parent)) std::swap(q.at(tmp_parent), q.at(i));
-    }
   }
-  last_idx = size - 1;
-}
-
-int PQueue::extractMax() {
-  int temp = q.at(0);
-  remove(0);
-  return temp;
-}
-
-void PQueue::traverse() {
-  std::cout << "[ ";
-  for (const auto &item : q) std::cout << item << " ";
-  std::cout << " ]" << std::endl;
+  q[idx] = q[0] + 1;
+  moveup(idx);
+  extractmax();
 }
 
 int main() {
-  PQueue pq{45};
+  Pqueue pq{45};
   pq.insert(31);
   pq.insert(20);
   pq.insert(14);
@@ -89,8 +94,6 @@ int main() {
   pq.insert(32);
   pq.traverse();
   pq.remove(1);
-  pq.traverse();
-  std::cout << pq.extractMax() << std::endl;
   pq.traverse();
   std::cout << std::endl;
   return 0;
