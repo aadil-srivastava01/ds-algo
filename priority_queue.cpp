@@ -13,7 +13,6 @@ class PQueue {
  private:
   int last_idx;
   int parent_idx;
-  int tmp;
   void fix_property(int pidx, int cidx);
 
  public:
@@ -22,7 +21,7 @@ class PQueue {
   void insert(int x);
   int extractMax();
   void remove(int idx);
-  int getMax();
+  int getMax() { return q.at(0); };
   void traverse();
 };
 
@@ -32,7 +31,7 @@ PQueue::PQueue(int x) {
 }
 void PQueue::insert(int x) {
   q.emplace_back(x);
-  last_idx++;
+  last_idx = q.size() - 1;
   parent_idx = (last_idx - 1) / 2;
   fix_property(parent_idx, last_idx);
 };
@@ -64,11 +63,13 @@ void PQueue::remove(int idx) {
       if (q.at(i) > q.at(tmp_parent)) std::swap(q.at(tmp_parent), q.at(i));
     }
   }
+  last_idx = size - 1;
 }
 
 int PQueue::extractMax() {
-  int tmp = q.at(0);
+  int temp = q.at(0);
   remove(0);
+  return temp;
 }
 
 void PQueue::traverse() {
@@ -88,6 +89,8 @@ int main() {
   pq.insert(32);
   pq.traverse();
   pq.remove(1);
+  pq.traverse();
+  std::cout << pq.extractMax() << std::endl;
   pq.traverse();
   std::cout << std::endl;
   return 0;
