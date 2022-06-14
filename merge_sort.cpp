@@ -12,6 +12,7 @@ Problem Link: Merge Sort Implementation
 void merge(std::vector<int> &vec, int left, int mid, int right) {
   int curr_left{left}, curr_right{mid + 1};
   int tmp[right - left + 1], idx{0};
+
   while ((curr_left <= mid) && (curr_right <= right)) {
     if (vec[curr_left] > vec[curr_right]) {
       tmp[idx] = vec[curr_right];
