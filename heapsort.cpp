@@ -1,49 +1,56 @@
-/*
+// /*
 
-Problem Link: Implementation of heapsort
+// Problem Link: Implementation of heapsort
 
-*/
-
-#include <algorithm>
+// */
 #include <iostream>
-#include <string>
-#include <vector>
+using namespace std;
 
-void heapify(std::vector<int> &vec, int idx) {
-  int size = vec.size();
-  if (idx >= size) return;
-  int l_child = 2 * idx + 1, r_child = 2 * idx + 2;
-  int max{};
-  if (r_child < size) {
-    if (vec.at(r_child) > vec.at(l_child))
-      max = r_child;
-    else
-      max = l_child;
+void heapify(int a[], int n, int i) {
+  int largest = i;        // Initialize largest as root
+  int left = 2 * i + 1;   // left child
+  int right = 2 * i + 2;  // right child
+  // If left child is larger than root
+  if (left < n && a[left] > a[largest]) largest = left;
+  // If right child is larger than root
+  if (right < n && a[right] > a[largest]) largest = right;
+  // If root is not largest
+  if (largest != i) {
+    // swap a[i] with a[largest]
+    int temp = a[i];
+    a[i] = a[largest];
+    a[largest] = temp;
 
-    if (vec.at(max) > vec.at(idx)) std::swap(vec.at(idx), vec.at(max));
-  } else if (l_child < size)
-    if (vec.at(l_child) > vec.at(idx)) std::swap(vec.at(idx), vec.at(l_child));
-}
-
-void build_max_heap(std::vector<int> &vec) {
-  for (int i = vec.size() - 1; i >= 0; i--) heapify(vec, i);
-}
-
-void heapsort(std::vector<int> &vec) {
-  int size = vec.size();
-  build_max_heap(vec);
-  for (int i = size - 1; i >= 1; i--) {
-    std::swap(vec.at(0), vec.at(vec.size() - 1));
-    std::cout << vec.back() << " ";
-    vec.pop_back();
-    build_max_heap(vec);
+    heapify(a, n, largest);
   }
 }
 
+void heapSort(int a[], int n) {
+  for (int i = n / 2 - 1; i >= 0; i--) heapify(a, n, i);
+  // One by one extract an element from heap
+  for (int i = n - 1; i >= 0; i--) {
+    /* Move current root element to end*/
+    // swap a[0] with a[i]
+    int temp = a[0];
+    a[0] = a[i];
+    a[i] = temp;
+
+    heapify(a, i, 0);
+  }
+}
+/* function to print the array elements */
+void printArr(int a[], int n) {
+  for (int i = 0; i < n; ++i) {
+    cout << a[i] << " ";
+  }
+}
 int main() {
-  std::vector<int> v1{1, 12, 9, 5, 6, 10};
-  heapsort(v1);
-  std::for_each(v1.begin(), v1.end(), [](int x) { std::cout << x << ' '; });
-  std::cout << std::endl;
+  int a[] = {47, 9, 22, 42, 27, 25, 0};
+  int n = sizeof(a) / sizeof(a[0]);
+  cout << "Before sorting array elements are - \n";
+  printArr(a, n);
+  heapSort(a, n);
+  cout << "\nAfter sorting array elements are - \n";
+  printArr(a, n);
   return 0;
 }
