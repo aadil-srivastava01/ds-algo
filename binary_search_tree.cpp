@@ -164,22 +164,68 @@ void BinarySearchTree::remove(int x) {
   }
 }
 
-int main() {
-  BinarySearchTree bst(10);
-  bst.insert(6);
-  bst.insert(7);
-  bst.insert(12);
-  bst.insert(3);
-  bst.insert(5);
-  bst.insert(2);
-  bst.insert(4);
-  std::cout << bst.lookup(21) << std::endl;
-  bst.inorder_traverse();
-  std::cout << std::endl;
-  bst.bfs(bst.root);
+class Solution {
+ public:
+  TreeNode *troot = NULL;
+  bool isValidBST(TreeNode *root) {
+    troot = root;
+    return validate();
+  }
 
-  bst.remove(6);
-  bst.inorder_traverse();
-  std::cout << std::endl;
+  bool validate();
+  void pre_order(std::vector<int> &vec, TreeNode *node);
+};
+
+bool Solution::validate() {
+  std::vector<int> sorted;
+  pre_order(sorted, troot);
+  for (int i = 1; i < sorted.size(); i++) {
+    if (sorted.at(i - 1) >= sorted.at(i)) return false;
+  }
+  return true;
+}
+void Solution::pre_order(std::vector<int> &vec, TreeNode *node) {
+  if (node == NULL) return;
+  pre_order(vec, node->left);
+  vec.push_back(node->val);
+  pre_order(vec, node->right);
+}
+
+class Solution2 {
+ public:
+  TreeNode *troot = NULL;
+  bool isValidBST(TreeNode *root) {
+    troot = root;
+    return validate();
+  }
+
+  bool validate();
+  void pre_order(std::vector<int> &vec, TreeNode *node);
+};
+
+int main() {
+  // BinarySearchTree bst(10);
+  // bst.insert(6);
+  // bst.insert(7);
+  // bst.insert(12);
+  // bst.insert(3);
+  // bst.insert(5);
+  // bst.insert(2);
+  // bst.insert(4);
+
+  BinarySearchTree bst(2);
+  bst.insert(1);
+  bst.insert(3);
+
+  Solution s1;
+  std::cout << s1.isValidBST(bst.root) << std::endl;
+  // std::cout << bst.lookup(21) << std::endl;
+  // bst.inorder_traverse();
+  // std::cout << std::endl;
+  // bst.bfs(bst.root);
+
+  // bst.remove(6);
+  // bst.inorder_traverse();
+  // std::cout << std::endl;
   return 0;
 }
