@@ -9,38 +9,32 @@ Problem Link: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 #include <string>
 #include <vector>
 
-class Solution {
+class SlowSolution {
  public:
   int maxProfit(std::vector<int>& prices) {
     int size = prices.size();
     if (size == 1) return 0;
-    std::vector<int> profit_vec;
-    profit_vec.reserve(size);
-    int base = prices.at(0);
-    int max(0);
-    int tmp{0};
+    int max{0};
+    int base{0}, tmp{0};
     for (int i = 0; i < size; i++) {
-      tmp = prices[i] - base;
-      if (tmp > max) {
-        max = tmp;
-        profit_vec.push_back(prices[i] - base);
+      base = prices[i];
+      for (int j = i + 1; j < size; j++) {
+        tmp = prices[j] - base;
+        if (tmp > max) max = tmp;
       }
     }
-    int curr_ptr{1};
-    int relative_size{0};
-    for (int i = 0; i < size; i++) {
-      if (i < curr_ptr) {
-        profit_vec[i] = -1;
-        continue;
-      }
-      relative_size = -1 * (base - prices[curr_ptr]);
-        }
+    return max;
   }
 };
 
+class DPSolution {
+ public:
+  int maxProfit(std::vector<int>& prices) {}
+};
+
 int main() {
-  Solution s1;
-  std::vector<int> v1{7, 6, 4, 3, 1};
+  SlowSolution s1;
+  std::vector<int> v1{2, 4, 1};
   std::cout << s1.maxProfit(v1);
   std::cout << std::endl;
 
