@@ -15,11 +15,13 @@ class Solution {
                   std::vector<int>& dp) {
     if (idx >= size)
       return 0;
-    else if (dp[idx] != -1) {
+    else if (dp[idx] != -1)
+      return dp[idx];
+    else {
+      dp[idx] = std::max(nums[idx] + rob_smartly(nums, size, idx + 2, dp),
+                         rob_smartly(nums, size, idx + 1, dp));
       return dp[idx];
     }
-    return std::max(nums[idx] + rob_smartly(nums, size, idx + 2, dp),
-                    rob_smartly(nums, size, idx + 1, dp));
   }
   int rob(std::vector<int>& nums) {
     int size = nums.size();
