@@ -14,16 +14,10 @@ Problem Link: https://leetcode.com/problems/excel-sheet-column-number/
 class Solution {
  public:
   int titleToNumber(std::string columnTitle) {
-    std::unordered_map<char, int> mapper;
-    int val{1};
-    for (char c = 'A'; c <= 'Z'; c++) {
-      mapper[c] = val;
-      val++;
-    }
+    int val{0};
     int sum{0};
-    val = 0;
     for (auto i = columnTitle.rbegin(); i != columnTitle.rend(); i++) {
-      sum += std::pow(26, val) * (mapper.at(*i));
+      sum += std::pow(26, val) * (int(*i) - 64);
       val++;
     }
     return sum;
