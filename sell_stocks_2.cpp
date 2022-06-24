@@ -19,16 +19,13 @@ class Solution {
       if ((prices[i - 1] > prices[i]) && (prices[i + 1] > prices[i])) {
         buy = true;
         min_val = std::min(min_val, prices[i]);
-      }
-      //   } else if (buy == true && (prices[i + 1] > prices[i]) &&
-      //              (prices[i - 1] < prices[i])) {
-      //         continue;
-      //   }
-      else if (buy == true && (prices[i + 1] < prices[i]) &&
-               (prices[i - 1] < prices[i])) {
+      } else if (buy == true && (prices[i + 1] > prices[i]) &&
+                 (prices[i - 1] < prices[i]) && (i + 1 <= prices.size() - 1)) {
+        continue;
+      } else if (buy == true && (prices[i + 1] < prices[i]) &&
+                 (prices[i - 1] < prices[i])) {
         max_profit += (prices[i] - min_val);
         buy = false;
-
       } else if (buy == true && (i + 1 == prices.size() - 1)) {
         max_profit += prices[i + 1] - min_val;
         buy = false;
@@ -39,7 +36,7 @@ class Solution {
 };
 
 int main() {
-  std::vector<int> v1{1, 2, 3, 4, 5};
+  std::vector<int> v1{7, 1, 5, 3, 6, 4};
   Solution s1;
   std::cout << s1.maxProfit(v1);
   std::cout << std::endl;
