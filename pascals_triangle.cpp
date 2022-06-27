@@ -1,6 +1,6 @@
 /*
 
-Problem : https://leetcode.com/problems/pascals-triangle/ß
+Problem : https://leetcode.com/problems/pascals-triangle/
 
 */
 #include <algorithm>
