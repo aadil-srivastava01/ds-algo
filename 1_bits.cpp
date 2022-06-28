@@ -23,7 +23,7 @@ class Solution {
 
 int main() {
   Solution s;
-  std::cout << s.hammingWeight(11111111111111111111111111111101);
+  std::cout << s.hammingWeight(111);
   std::cout << std::endl;
   return 0;
 }
