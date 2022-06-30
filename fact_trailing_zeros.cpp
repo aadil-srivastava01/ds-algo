@@ -30,9 +30,26 @@ class naiveSolution {
   }
 };
 
+class Solution {
+ public:
+  int trailingZeroes(int n) {
+    while (n % 5 != 0) n--;
+    int tmp{0};
+    int count{0};
+    for (int i = n; i >= 5; i -= 5) {
+      tmp = i;
+      while (tmp % 5 == 0) {
+        count++;
+        tmp /= 5;
+      }
+    }
+    return count;
+  }
+};
+
 int main() {
-  naiveSolution s;
-  std::cout << s.trailingZeroes(10000);
+  Solution s;
+  std::cout << s.trailingZeroes(26);
   std::cout << std::endl;
   return 0;
 }
