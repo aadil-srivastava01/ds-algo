@@ -64,10 +64,13 @@ is 3.
 */
 
 #include <algorithm>
+#include <deque>
 #include <iostream>
+#include <numeric>
 #include <string>
 #include <vector>
 
+// Time: O(n*n)
 int maximumsustainableclustersize(std::vector<int> &boot_power,
                                   std::vector<int> &processing_power,
                                   int powerthreshold) {
@@ -94,10 +97,42 @@ int maximumsustainableclustersize(std::vector<int> &boot_power,
   return global_cluster_size;
 }
 
+// Time : O(n)
+
+int optmaximumsustainableclustersize(std::vector<int> &boot_power,
+                                     std::vector<int> &processing_power,
+                                     int powerthreshold) {
+  int i{0}, global_cluster_size{0}, local_cluster_size{0};
+  int size = boot_power.size();
+  int local_boot_max{0};
+  int sum{0};
+  // Create a Deque that will act as a sliding window
+  std::deque<int> sliding_window;
+
+  for (i = 0; i < size; i++) {
+    local_boot_max = boot_power.at(i);
+    if (boot_power.at(i) > local_boot_max) local_boot_max = boot_power.at(i);
+    // Keep adding new element and growing the queue/window
+    sliding_window.push_back(processing_power.at(i));
+    // Get the sum of elements in the current window
+    sum = std::accumulate(sliding_window.begin(), sliding_window.end(), 0);
+    if ((local_boot_max + sum * (i + 1)) < powerthreshold) {
+      local_cluster_size = sliding_window.size();
+      if (global_cluster_size < local_cluster_size)
+        global_cluster_size = local_cluster_size;
+    } else
+      // If the elements in the window are exceeding the threshold, pop out the
+      // first element and shrinking the window from back
+      sliding_window.pop_front();
+  }
+  return global_cluster_size;
+}
+
 int main() {
   std::vector<int> v1{3, 6, 1, 3, 4};
   std::vector<int> v2{2, 1, 3, 4, 5};
-  std::cout << maximumsustainableclustersize(v1, v2, 25);
+  std::cout << maximumsustainableclustersize(v1, v2, 25) << std::endl;
+  std::cout << optmaximumsustainableclustersize(v1, v2, 25) << std::endl;
   std::cout << std::endl;
   return 0;
 }
