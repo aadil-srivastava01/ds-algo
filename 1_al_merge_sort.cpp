@@ -17,10 +17,11 @@ Sample Input arrays = [ [1, 5, 9, 21],
 #include <vector>
 
 std::vector<int> merge(std::vector<std::vector<int>> &arrays, int lb, int ub) {
-  if (lb == ub) return arrays.at(lb);
+  if (lb >= ub) return arrays.at(lb);
 
-  auto m1 = merge(arrays, lb, ub / 2);
-  auto m2 = merge(arrays, (ub / 2 + 1), ub);
+  int mid = {(lb + ub) / 2};
+  auto m1 = merge(arrays, lb, mid);
+  auto m2 = merge(arrays, mid + 1, ub);
 
   int s1 = m1.size();
   int s2 = m2.size();
@@ -28,20 +29,18 @@ std::vector<int> merge(std::vector<std::vector<int>> &arrays, int lb, int ub) {
   int p1{0}, p2{0}, i{0};
 
   std::vector<int> merged(s1 + s2, 0);
-  merged.reserve(s1 + s2);
-
   while (i < total_size) {
     if (p1 == s1) {
-      merged[i] = arrays[ub][p2];
+      merged[i] = m2[p2];
       p2++;
     } else if (p2 == s2) {
-      merged[i] = arrays[lb][p1];
+      merged[i] = m1[p1];
       p1++;
-    } else if (arrays[lb][p1] > arrays[ub][p2]) {
-      merged[i] = arrays[ub][p2];
+    } else if (m1[p1] > m2[p2]) {
+      merged[i] = m2[p2];
       p2++;
     } else {
-      merged[i] = arrays[lb][p1];
+      merged[i] = m1[p1];
       p1++;
     }
     i++;
@@ -50,7 +49,7 @@ std::vector<int> merge(std::vector<std::vector<int>> &arrays, int lb, int ub) {
 }
 
 std::vector<int> mergeSortedArrays(std::vector<std::vector<int>> arrays) {
-  return merge(arrays, 0, arrays.size());
+  return merge(arrays, 0, arrays.size() - 1);
 }
 
 int main() {
