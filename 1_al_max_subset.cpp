@@ -16,7 +16,6 @@ int maxSubsetSumNoAdjacent(std::vector<int> array) {
   if (size == 0) return 0;
   std::vector<int> dp(size + 1, 0);
   dp[1] = array[0];
-  //   dp[2] = std::max(dp[1], array[1]);
   for (int i = 2; i <= size; i++) {
     local_max = std::max(dp[i - 1], dp[i - 2] + array[i - 1]);
     dp[i] = local_max;
