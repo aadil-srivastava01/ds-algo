@@ -18,10 +18,32 @@ Sample Output
 #include <string>
 #include <vector>
 
-int levenshteinDistance(std::string str1, std::string str2) {}
+int levenshteinDistance(std::string str1, std::string str2) {
+  auto size1 = str1.size();
+  auto size2 = str2.size();
+  std::vector<std::vector<int>> operationsTable(size1 + 1,
+                                                std::vector<int>(size2 + 1));
+  for (int i = 0; i < size2 + 1; i++) operationsTable[0][i] = i;
+  for (int i = 0; i < size1 + 1; i++) operationsTable[i][0] = i;
+  for (int rowIndex = 1; rowIndex < size1 + 1; rowIndex++) {
+    for (int colIndex = 1; colIndex < size2 + 1; colIndex++) {
+      if (str1.at(rowIndex - 1) == str2.at(colIndex - 1))
+        operationsTable.at(rowIndex).at(colIndex) =
+            operationsTable.at(rowIndex - 1).at(colIndex - 1);
+      else {
+        operationsTable.at(rowIndex).at(colIndex) =
+            1 +
+            std::min(std::min(operationsTable.at(rowIndex - 1).at(colIndex - 1),
+                              operationsTable.at(rowIndex).at(colIndex - 1)),
+                     operationsTable.at(rowIndex - 1).at(colIndex));
+      }
+    }
+  };
+  return operationsTable.back().back();
+}
 
 int main() {
-  std::cout << levenshteinDistance("abc", "yabd");
+  std::cout << levenshteinDistance("aabddy", "abc");
   std::cout << std::endl;
   return 0;
 }
