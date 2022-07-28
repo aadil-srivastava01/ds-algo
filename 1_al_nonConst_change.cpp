@@ -26,10 +26,12 @@ int nonConstructibleChange(std::vector<int> coins) {
     else
       return maxValue + 1;
   }
+  return maxValue + 1;
 }
 
 int main() {
-  std::vector<int> v1{5, 7, 1, 1, 2, 3, 22};
+  //   std::vector<int> v1{5, 7, 1, 1, 2, 3, 22};
+  std::vector<int> v1{1, 2, 5};
   std::cout << nonConstructibleChange(v1);
   std::cout << std::endl;
   return 0;
