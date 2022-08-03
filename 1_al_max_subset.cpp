@@ -23,6 +23,19 @@ int maxSubsetSumNoAdjacent(std::vector<int> array) {
   return dp.back();
 }
 
+int optmaxSubsetSumNoAdjacent(std::vector<int> array) {
+  int size = array.size();
+  if (size == 0) return 0;
+  int lastMax{array.at(0)}, lastLastMax{0};
+  int tmp{0};
+  for (int i = 1; i < size; i++) {
+    tmp = std::max(lastMax, lastLastMax + array.at(i));
+    lastLastMax = lastMax;
+    lastMax = tmp;
+  }
+  return lastMax;
+}
+
 int main() {
   std::vector<int> v1{75, 105, 120, 75, 90, 135};
   std::cout << maxSubsetSumNoAdjacent(v1);
