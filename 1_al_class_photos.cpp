@@ -1,7 +1,7 @@
 /*
 
 Problem Link:
-
+Class photos
 */
 
 #include <algorithm>
@@ -30,7 +30,7 @@ bool classPhotos(std::vector<int> redShirtHeights,
       redShirtHeights.at(idx) = 1;
     else
       redShirtHeights.at(idx) = -1;
-      
+
     if (redShirtHeights.at(idx) != redShirtHeights.at(idx - 1))
       return false;
     else
