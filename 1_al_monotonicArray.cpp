@@ -22,7 +22,8 @@ bool isMonotonic(std::vector<int> array) {
   if (size < 2) return true;
 
   bool last, current;
-  bool eqlFlag{false};
+  bool eqlFlag{
+      false};  // for handling the cases where first 2 elements are identical
   if (array.at(0) == array.at(1))
     eqlFlag = true;
   else
