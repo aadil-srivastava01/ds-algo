@@ -47,6 +47,18 @@ class Solution {
   }
 };
 
+class SimpleSolution {
+ public:
+  int trailingZeros(int n) {
+    int numZeros{0};
+    while (n > 0) {
+      numZeros += n / 5;
+      n = n / 5;
+    }
+    return numZeros;
+  }
+};
+
 int main() {
   Solution s;
   std::cout << s.trailingZeroes(26);

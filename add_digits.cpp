@@ -13,7 +13,7 @@ Applyting Congruence Formula
  digit_sum = {
 
                 0 is n = 0
-                1 + (n-1) mod (base-1) n!=0
+                1 + (n-1) mod (base-1) of n!=0
  }
  */
 class Solution {
