@@ -45,6 +45,22 @@ class Solution2 {
   }
 };
 
+// Time:O(n), Space:O(1)
+class Solution3 {
+ public:
+  int rob(std::vector<int>& nums) {
+    if (nums.empty()) return 0;
+    int size = nums.size();
+    int maxLast{nums.at(0)}, maxLastLast{0}, temp;
+    for (int houseNo = 1; houseNo < size; houseNo++) {
+      temp = std::max(maxLast, maxLastLast + nums.at(houseNo));
+      maxLastLast = maxLast;
+      maxLast = temp;
+    }
+    return maxLast;
+  }
+};
+
 int main() {
   std::vector<int> v1{8, 9, 3, 1, 1, 2};
   Solution s1;
