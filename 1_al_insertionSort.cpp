@@ -11,15 +11,18 @@ Problem Link: Implement Insertion Sort
 
 std::vector<int> insertionSort(std::vector<int> &array) {
   auto size = array.size();
-  int ptr1{0};
-  for (int i = 0; i < size - 1; i++) {
-    if (array.at(i) > array.at(i + 1)) {
-      std::swap(array.at(i), array.at(i + 1));
-      for (int j = ptr1; j >= 1; j--) {
-        if (array.at(j - 1) > array.at(j))
-          std::swap(array.at(j - 1), array.at(j));
+  int inIdx;
+  for (int outIdx = 1; outIdx < size; outIdx++) {
+    if (array.at(outIdx - 1) > array.at(outIdx)) {
+      inIdx = outIdx;
+      while (inIdx > 0) {
+        if (array.at(inIdx - 1) < array.at(inIdx)) {
+          break;
+        } else {
+          std::swap(array.at(inIdx), array.at(inIdx - 1));
+        }
+        inIdx--;
       }
-      ptr1++;
     }
   }
   return array;
