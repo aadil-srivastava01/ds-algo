@@ -20,6 +20,7 @@ Sample Output: { -8, 2, 6 },{ -8, 3, 5  },{ -6, 1, 5
 #include <iostream>
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -60,6 +61,25 @@ std::vector<std::vector<int>> threeNumberSum(std::vector<int> array,
   }
   std::sort(result.begin(), result.end());
   return result;
+}
+
+std::vector<std::vector<int>> threeNumberSum(std::vector<int> array,
+                                             int targetSum) {
+  auto size = array.size();
+  int sum{0};
+  std::unordered_map<int, std::vector<std::vector<int>>> haveSeen;
+  std::vector<std::vector<int>> results;
+  std::vector<int> temp;
+  for (int outIdx = 0; outIdx < size; outIdx++) {
+    for (int inIdx = outIdx + 1; inIdx < size; inIdx++) {
+      sum = array.at(outIdx) + array.at(inIdx);
+      if (haveSeen.find(sum) != haveSeen.end()) {
+        temp.emplace_back(array.at(outIdx));
+        temp.emplace_back(array.at(inIdx));
+      }
+    }
+  }
+  return {};
 }
 
 int main() {
