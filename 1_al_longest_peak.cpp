@@ -53,14 +53,49 @@ int longestPeak(std::vector<int> array) {
   return globalMaxlen;
 }
 
+// Time: O(n) -> Nested loops might give of wrong impression about the
+// complexity
+int optimalLongestPeak(std::vector<int> array) {
+  int globalMaxlen{0};
+  int localMaxlen{0};
+  if (array.empty()) return 0;
+  auto size = array.size();
+  int tmpIdx;
+  for (int idx = 1; idx < size - 1; idx++) {
+    if (array.at(idx) > array.at(idx + 1) &&
+        array.at(idx) > array.at(idx - 1)) {
+      tmpIdx = idx - 1;
+      localMaxlen = 3;
+      while (tmpIdx > 0) {
+        if (array.at(tmpIdx - 1) < array.at(tmpIdx))
+          localMaxlen++;
+        else
+          break;
+        tmpIdx--;
+      }
+      tmpIdx = idx + 1;
+      while (tmpIdx < size - 1) {
+        if (array.at(tmpIdx + 1) < array.at(tmpIdx))
+          localMaxlen++;
+        else
+          break;
+        tmpIdx++;
+      }
+      if (localMaxlen > globalMaxlen) globalMaxlen = localMaxlen;
+    }
+  }
+  return globalMaxlen;
+}
+
 int main() {
   std::vector<int> v1{1, 2, 3, 3, 4, 0, 10, 6, 5, -1, -3, 2, 3};
   std::vector<int> v2{5, 4, 3, 2, 1, 2, 1};
-  std::vector<int> v3{2, 3, 3, 4, 0};
+  std::vector<int> v3{1, 2, 3, 3, 4, 0, 1};
   std::vector<int> v4{1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 3};
   std::vector<int> v5{1,  1,  1, 2,  3,  10, 12, -3, -3, 2, 3,  45, 800,
                       99, 98, 0, -1, -1, 2,  3,  4,  5,  0, -1, -1};
-  std::cout << longestPeak(v5);
+  std::cout << longestPeak(v3) << std::endl;
+  std::cout << optimalLongestPeak(v3) << std::endl;
   std::cout << std::endl;
   return 0;
 }
