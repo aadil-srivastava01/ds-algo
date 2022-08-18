@@ -77,8 +77,10 @@ int optimalLongestPeak(std::vector<int> array) {
       while (tmpIdx < size - 1) {
         if (array.at(tmpIdx + 1) < array.at(tmpIdx))
           localMaxlen++;
-        else
+        else {
+          idx = tmpIdx;
           break;
+        }
         tmpIdx++;
       }
       if (localMaxlen > globalMaxlen) globalMaxlen = localMaxlen;
@@ -94,8 +96,8 @@ int main() {
   std::vector<int> v4{1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 3};
   std::vector<int> v5{1,  1,  1, 2,  3,  10, 12, -3, -3, 2, 3,  45, 800,
                       99, 98, 0, -1, -1, 2,  3,  4,  5,  0, -1, -1};
-  std::cout << longestPeak(v3) << std::endl;
-  std::cout << optimalLongestPeak(v3) << std::endl;
+  std::cout << longestPeak(v5) << std::endl;
+  std::cout << optimalLongestPeak(v5) << std::endl;
   std::cout << std::endl;
   return 0;
 }
