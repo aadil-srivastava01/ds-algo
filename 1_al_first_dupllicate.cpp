@@ -22,11 +22,22 @@ int firstDuplicateValue(std::vector<int> array) {
   return -1;
 }
 
-int optFirstDuplicateValue(std::vector<int> array) { return -1; }
+int optFirstDuplicateValue(std::vector<int> array) {
+  int tmp;
+  for (int idx = 0; idx < array.size(); idx++) {
+    tmp = array.at(idx);
+    if (array.at(tmp - 1) == tmp - 1)
+      return tmp;
+    else
+      std::swap(array.at(idx), array.at(tmp - 1));
+  }
+  return -1;
+}
 
 int main() {
   std::vector<int> v1{2, 1, 5, 2, 3, 3, 4};
-  std::cout << firstDuplicateValue(v1);
+  std::cout << firstDuplicateValue(v1) << std::endl;
+  std::cout << optFirstDuplicateValue(v1);
   std::cout << std::endl;
   return 0;
 }
