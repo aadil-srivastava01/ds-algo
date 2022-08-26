@@ -29,6 +29,18 @@ int firstDuplicateValue(std::vector<int> array) {
   }
   return -1;
 }
+// O(n) Time & O(1) Space
+int optFirstDuplicateValue(std::vector<int> array) {
+  int absVal;
+  for (int &val : array) {
+    absVal = std::abs(val);
+    if (array.at(absVal - 1) < 0)
+      return absVal;
+    else
+      array.at(absVal - 1) *= -1;
+  }
+  return -1;
+}
 
 int main() {
   std::vector<int> v1{2, 1, 5, 2, 3, 3, 4};
