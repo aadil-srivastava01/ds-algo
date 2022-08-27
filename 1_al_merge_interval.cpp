@@ -16,6 +16,11 @@ less than or equal to the end of that interval.
 #include <string>
 #include <vector>
 
+std::vector<std::vector<int>> mergeOverlappingIntervals(
+    std::vector<std::vector<int>> intervals) {
+  return {};
+}
+
 int main() {
   std::cout << std::endl;
   return 0;
