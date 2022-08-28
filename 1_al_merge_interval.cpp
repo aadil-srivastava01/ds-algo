@@ -18,10 +18,35 @@ less than or equal to the end of that interval.
 
 std::vector<std::vector<int>> mergeOverlappingIntervals(
     std::vector<std::vector<int>> intervals) {
-  return {};
+  int size = intervals.size();
+  std::vector<std::vector<int>> result;
+  std::sort(intervals.begin(), intervals.end(),
+            [](std::vector<int> &x, std::vector<int> &y) {
+              return x.at(0) < y.at(0);
+            });
+  result.emplace_back(intervals.at(0));
+  int resultPointer{0};
+  for (int idx = 1; idx < size; idx++) {
+    if (result.at(resultPointer).at(1) >= intervals.at(idx).at(0) &&
+        result.at(resultPointer).at(1) < intervals.at(idx).at(1)) {
+      result.at(resultPointer).at(1) = intervals.at(idx).at(1);
+    } else if (result.at(resultPointer).at(1) >= intervals.at(idx).at(0) &&
+               result.at(resultPointer).at(1) == intervals.at(idx).at(1)) {
+      result.at(resultPointer).at(1) = intervals.at(idx).at(1);
+    } else if (result.at(resultPointer).at(1) >= intervals.at(idx).at(0) &&
+               result.at(resultPointer).at(1) > intervals.at(idx).at(1)) {
+      continue;
+    } else {
+      result.emplace_back(intervals.at(idx));
+      resultPointer++;
+    }
+  }
+  return result;
 }
 
 int main() {
+  std::vector<std::vector<int>> input{{1, 2}, {3, 5}, {4, 7}, {6, 8}, {9, 10}};
+  auto result = mergeOverlappingIntervals(input);
   std::cout << std::endl;
   return 0;
 }
